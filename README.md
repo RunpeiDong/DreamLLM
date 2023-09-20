@@ -7,7 +7,7 @@
 <a href="https://dreamllm.github.io/"><img src="https://img.shields.io/badge/Project-Page-Green"></a>
 <a href=""><img src="https://img.shields.io/badge/Paper-PDF-orange"></a> 
 
-DreamLLM is a learning framework that first achieves versatile Multimodal Large Language Models (LLMs) empowered with frequently overlooked synergy between multimodal comprehension and creation. DreamLLM operates on two fundamental principles. The first focuses on the generative modeling of both language and image posteriors by direct sampling in the raw multimodal space. Second, DreamLLM fosters the generation of raw, interleaved documents, modeling both text and image contents, along with unstructured layouts. DreamLLM is a zero-shot multimodal generalist capable of both comprehension and creation.
+DreamLLM is a learning framework that first achieves versatile Multimodal Large Language Models (MLLMs) empowered with frequently overlooked synergy between multimodal comprehension and creation. DreamLLM operates on two fundamental principles. The first focuses on the generative modeling of both language and image posteriors by direct sampling in the raw multimodal space. Second, DreamLLM fosters the generation of raw, interleaved documents, modeling both text and image contents, along with unstructured layouts. DreamLLM is a zero-shot multimodal generalist capable of both comprehension and creation.
 
 ![](assets/dreamllm.png)
 
