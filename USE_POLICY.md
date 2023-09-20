@@ -1,6 +1,6 @@
 # DreamLLM Acceptable Use Policy
 
-Meta is committed to promoting safe and fair use of its tools and features, including DreamLLM. If you access or use DreamLLM, you agree to this Acceptable Use Policy (“Policy”).
+If you access or use DreamLLM, you agree to this Acceptable Use Policy (“Policy”).
 
 ## Prohibited Uses
 We want everyone to use DreamLLM safely and responsibly. You agree you will not use, or allow others to use, DreamLLM to: 
