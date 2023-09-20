@@ -1,4 +1,4 @@
-# <img src="assets/logo.png" style="width: 4.5%"> DreamLLM
+# <img src="assets/logo.png" style="width: 4.2%"> DreamLLM
 
 <h3><a href="">DreamLLM: Synergistic Multimodal Comprehension and Creation</a></h3>
 
