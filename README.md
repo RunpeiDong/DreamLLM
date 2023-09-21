@@ -18,7 +18,7 @@ Code, model weights, and demo will be released soon.
 If you have any questions related to the code or the paper, feel free to email Runpei Dong (`runpei.dong@gmail.com`).
 
 ## License
-Our model and weights are licensed for both researchers and commercial entities, upholding the principles of openness. The license is drafted by mofifiction of the license of [LLaMA](https://github.com/facebookresearch/llama).
+Our model and weights are licensed for both researchers and commercial entities, upholding the principles of openness. The license is drafted by modification of the license of [LLaMA](https://github.com/facebookresearch/llama).
 
 See the [LICENSE](./LICENSE), as well as our accompanying [Acceptable Use Policy](./USE_POLICY.md).
 
