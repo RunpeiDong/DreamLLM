@@ -21,7 +21,7 @@
 # Introduction
 DreamLLM is a learning framework that first achieves versatile Multimodal Large Language Models (MLLMs) empowered with frequently overlooked synergy between multimodal comprehension and creation. DreamLLM operates on two fundamental principles. The first focuses on the generative modeling of both language and image posteriors by direct sampling in the raw multimodal space. Second, DreamLLM fosters the generation of raw, interleaved documents, modeling both text and image contents, along with unstructured layouts. DreamLLM is a zero-shot multimodal generalist capable of both comprehension and creation.
 
-![](assets/images/dreamllm.png)
+![](assets/images/dreamllm.jpg)
 
 
 # ♾️ Omni Framework
@@ -120,7 +120,7 @@ The training script of DreamLLM is `projects/dreamllm/train.py`, the definition 
 
   ```python
   from omni.train.training_args import TrainingArguments
-
+  
   @dataclass
   class ModelArguments:
       model_name_or_path: str | None = field(default="lmsys/vicuna-13b-delta-v0")
