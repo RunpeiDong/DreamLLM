@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+import sys
+import os
+import torch
+import torch.distributed as dist
+import subprocess
+import atexit
+import uuid
+import time
+import socket
+
+'''
+A smart version of torchrun for rlaunch replica
+Usage:
+rlaunch --cpu 40 --gpu 8 --memory 200000 --positive-tags 2080ti -P 2 -- tools/smartrun tools/train.py -f your_exp.py
+'''
+
+class RlaunchDistibuteManager:
+    def __init__(self):
+        self.nr_gpus = torch.cuda.device_count()
+
+        # Read from brainpp replica ENVIRONs
+        
+        if "RLAUNCH_ID" not in os.environ:
+            if int(os.environ.get("RLAUNCH_REPLICA_TOTAL", 1)) == 1:
+                self.exp_id = str(uuid.uuid4())
+            else:
+                msg = """cannot find RLAUNCH_ID in environ please use following
+                command RLAUNCH_ID=$(cat /proc/sys/kernel/random/uuid) rlaunch ...
+                """
+                print(msg)
+                raise RuntimeError
+        else:
+            self.exp_id = str(os.environ["RLAUNCH_ID"])
+        self.num_nodes = int(os.environ.get("RLAUNCH_REPLICA_TOTAL", 1))
+        self.world_size = self.num_nodes * int(self.nr_gpus)
+        self.node_rank = int(os.environ.get("RLAUNCH_REPLICA", 0))
+        self.local_rank = int(os.environ.get("LOCAL_RANK", 0))
+        self.global_rank = int(self.nr_gpus) * self.node_rank + self.local_rank
+        self.is_master = self.global_rank == 0
+
+        self.filepath = os.path.join(os.path.curdir, f"master_ip_{self.exp_id}.txt")
+        os.makedirs(os.path.dirname(self.filepath), exist_ok=True)
+
+        if self.is_master:
+            self.master_addr = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
+            self.set_master(self.filepath, self.master_addr)
+        else:
+            self.master_addr = self.get_master()
+        self.master_port = os.environ.get("MASTER_PORT", 12345)
+        self.master_uri = f"tcp://{self.master_addr}:{self.master_port}"
+
+    def set_environs(self):
+        os.environ["MASTER_ADDR"] = self.master_addr
+        os.environ["MASTER_PORT"] = self.master_port
+        os.environ["WORLD_SIZE"] = self.world_size
+        os.environ["RANK"] = self.node_rank
+        
+
+    def set_master(self, filepath, hostname):
+        assert not os.path.exists(filepath)
+        # hostname = brainpp.current_vm.domain_name
+        with open(filepath, "w") as f:
+            f.write(hostname)
+        atexit.register(os.remove, filepath)
+
+    def get_master(self):
+        while True:
+            if os.path.exists(self.filepath):
+                with open(self.filepath, "r") as f:
+                    return f.read()
+            else:
+                time.sleep(5)
+
+    def init_dist(self):
+        torch.cuda.set_device(self.local_rank())
+        dist.init_process_group(
+            backend="nccl",
+            init_method=self.master_uri,
+            rank=self.global_rank(),
+            world_size=self.world_size(),
+        )
+        atexit.register(dist.destroy_process_group())
+        dist.barrier()
+    
+def DISPATCH_TORCHRUN():
+    '''
+    torchrun
+    --nnodes 2
+    --nproc_per_node 8
+    --node_rank 1
+    --master_addr 100.96.57.172
+    --master_port 12345
+    nlp_example.py
+    '''
+    self_filename = os.path.basename(__file__)
+    cmd = '|<and>|'.join(sys.argv)
+    cmd = cmd[cmd.index(self_filename) + len(self_filename) + len('|<and>|'):]
+    cmd = cmd.split('|<and>|')
+    cmd.insert(0, 'torchrun')
+    m = RlaunchDistibuteManager()
+    dist_args = f'--nnodes {m.num_nodes}\
+        --nproc_per_node {m.nr_gpus}\
+        --node_rank {m.node_rank}\
+        --master_addr {m.master_addr}\
+        --master_port {m.master_port}'.split()
+    cmd = cmd[:1] + dist_args + cmd[1:]
+    cmd = ' '.join(cmd)
+    print(f'Modified Command:\n\033[32m{cmd}\033[0m', flush=True)
+    os.system(cmd)
+
+DISPATCH_TORCHRUN()

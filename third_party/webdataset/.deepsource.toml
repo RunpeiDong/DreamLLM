@@ -1,0 +1,18 @@
+version = 1
+
+test_patterns = [
+    "webdataset/test/**"
+]
+
+exclude_patterns = [
+    "docs/**",
+    "tasks.py",
+    "test_**"
+]
+
+[[analyzers]]
+name = "python"
+enabled = true
+
+[analyzers.meta]
+runtime_version = "3.x.x"
