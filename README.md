@@ -269,7 +269,7 @@ MODEL_ZOOS = {
 
 ## Citation
 If you find our work DreamLLM useful in your research, please consider citing DreamLLM:
-```tex
+```bibtex
 @inproceedings{dong2024dreamllm,
   title={Dream{LLM}: Synergistic Multimodal Comprehension and Creation},
   author={Runpei Dong and Chunrui Han and Yuang Peng and Zekun Qi and Zheng Ge and Jinrong Yang and Liang Zhao and Jianjian Sun and Hongyu Zhou and Haoran Wei and Xiangwen Kong and Xiangyu Zhang and Kaisheng Ma and Li Yi},
@@ -279,7 +279,7 @@ If you find our work DreamLLM useful in your research, please consider citing Dr
 }
 ```
 If you find ♾️ **Omni** helpful for your research, please consider citing:
-```tex
+```bibtex
 @Misc{dong2024omni,
   author={Runpei Dong and Chunrui Han and Yuang Peng and Zekun Qi and Zheng Ge and Jinrong Yang and Liang Zhao and Jianjian Sun and Hongyu Zhou and Haoran Wei and Xiangwen Kong and Xiangyu Zhang and Kaisheng Ma and Li Yi},
   title =        {Omni: A Unified Framework for Multimodal Language Models},
