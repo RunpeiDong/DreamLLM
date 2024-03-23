@@ -282,7 +282,7 @@ If you find ♾️ **Omni** helpful for your research, please consider citing:
 ```bibtex
 @Misc{dong2024omni,
   author={Runpei Dong and Chunrui Han and Yuang Peng and Zekun Qi and Zheng Ge and Jinrong Yang and Liang Zhao and Jianjian Sun and Hongyu Zhou and Haoran Wei and Xiangwen Kong and Xiangyu Zhang and Kaisheng Ma and Li Yi},
-  title =        {Omni: A Unified Framework for Multimodal Language Models},
+  title =        {Omni: A Unified Framework for Multimodal Large Language Models},
   howpublished = {\url{https://github.com/RunpeiDong/DreamLLM}},
   year =         {2024}
 }
