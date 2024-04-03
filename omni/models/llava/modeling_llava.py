@@ -21,7 +21,6 @@
 import math
 import os
 from dataclasses import dataclass
-from typing import Any, Callable, Literal
 
 import numpy as np
 import torch
@@ -36,7 +35,6 @@ from transformers.modeling_attn_mask_utils import _prepare_4d_causal_attention_m
 from transformers.utils import ModelOutput
 
 from omni.config.instantiate import deep_instantiate
-from omni.conversation.multimodal import MultimodalContent
 from omni.models.llava.configuration_llava import LLaVAConfig
 from omni.models.llava.tokenization_llava import DEFAULT_IMAGE_START_TOKEN
 from omni.utils.fsdp_utils import FSDPMixin
@@ -1366,7 +1364,11 @@ class LLaVAForCausalMLM(LLaVAPreTrainedModel):
             shift_labels = shift_labels.view(-1)
             # Enable model parallelism
             shift_labels = shift_labels.to(shift_logits.device)
-            lm_loss = loss_fct(shift_logits, shift_labels).mean()
+            valid_labels =(shift_labels !=-100).bool()
+            if valid_labels.sum() > 0:
+                lm_loss = (loss_fct(shift_labels, shift_labels) * valid_labels).sum() / valid_labels.sum()
+            else:
+                lm_loss = loss_fct(shift_logits, shift_labels).mean()
 
         loss_scale = 1
 

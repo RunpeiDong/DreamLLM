@@ -1463,7 +1463,11 @@ class DreamLLMForCausalMLM(DreamLLMPreTrainedModel):
             shift_labels = shift_labels.view(-1)
             # Enable model parallelism
             shift_labels = shift_labels.to(shift_logits.device)
-            lm_loss = loss_fct(shift_logits, shift_labels).mean()
+            valid_labels =(shift_labels !=-100).bool()
+            if valid_labels.sum() > 0:
+                lm_loss = (loss_fct(shift_labels, shift_labels) * valid_labels).sum() / valid_labels.sum()
+            else:
+                lm_loss = loss_fct(shift_logits, shift_labels).mean()
 
         if self.config.loss_scale_schedule == "l1_norm":
             loss_scale = self.loss_weight_lm + self.loss_weight_vm
