@@ -88,11 +88,10 @@ dependencies = [
 smartrun = "omni:dispatch_torchrun"
 
 [project.urls]
-# Homepage = "https://example.com"
-# Documentation = "https://readthedocs.org"
-Repository = "https://github.com/BaseLLVM/omni"
-"Bug Tracker" = "https://github.com/BaseLLVM/omni/issues"
-Changelog = "https://github.com/BaseLLVM/omni/blob/main/CHANGELOG.md"
+Homepage = "https://dreamllm.github.io/"
+Repository = "https://github.com/RunpeiDong/DreamLLM"
+"Bug Tracker" = "https://github.com/RunpeiDong/DreamLLM/issues"
+Changelog = "https://github.com/RunpeiDong/DreamLLM/blob/master/CHANGELOG.md"
 
 [tool.setuptools]
 packages = ["omni"]
