@@ -1464,7 +1464,7 @@ class DreamLLMSDXLForCausalMLM(DreamLLMPreTrainedModel):
             shift_labels = shift_labels.to(shift_logits.device)
             valid_labels =(shift_labels !=-100).bool()
             if valid_labels.sum() > 0:
-                lm_loss = (loss_fct(shift_labels, shift_labels) * valid_labels).sum() / valid_labels.sum()
+                lm_loss = (loss_fct(shift_logits, shift_labels) * valid_labels).sum() / valid_labels.sum()
             else:
                 lm_loss = loss_fct(shift_logits, shift_labels).mean()
 
